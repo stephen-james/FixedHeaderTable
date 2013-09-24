@@ -8,6 +8,7 @@ $(function() {
         // border box, we have to add the magic number to the size to ensure correct size
         // will need to fix this!
         magicNumber : 1,
+        magicNumber2 : 20,
 
         // the definition parsed from the table element is stored here
         tableDefinition  : {
@@ -59,8 +60,8 @@ $(function() {
                         }
 
                         columnHeaderRowDefinition.push({
-                            width : $columnHeaderCell.width(),
-                            height : $columnHeaderCell.height()
+                            width : $columnHeaderCell.outerWidth(),
+                            height : $columnHeaderCell.outerHeight()
                         });
                     }
                 });
@@ -79,8 +80,8 @@ $(function() {
                     }
 
                     rowHeaderRowDefinition.push({
-                        width : $rowHeaderCell.width(),
-                        height : $rowHeaderCell.height()
+                        width : $rowHeaderCell.outerWidth(),
+                        height : $rowHeaderCell.outerHeight()
                     });
 
                     that.tableDefinition.measurements.rowHeader.rows.push(rowHeaderRowDefinition);
@@ -113,27 +114,32 @@ $(function() {
 
             this._wrapElement();
 
-//            this._cloneColumnHeaders();
-//            this._cloneRowHeaders();
-//
-//            this._hideColumnHeaders();
-//            this._hideRowHeaders();
-//
-//            this._resizeWrapperToFitElement(this.wrapper.bodyWrapper.innerWrapper,  this.wrapper.bodyWrapper.wrappedElement);
-//
-//            this._positionWrappers();
-//            this._resizeParentWrappers();
-//
-//
-//            this._configureScrolling();
-//
-//            $(window).on("resize.fixedHeaderTable", function() {
-//                that._resizeParentWrappers();
-//            });
-//
-//            this.element.addClass("fixed-header-table-source-table");
-//
-//            this._refresh();
+            this._cloneColumnHeaders();
+            this._cloneRowHeaders();
+
+            this._hideColumnHeaders();
+            this._hideRowHeaders();
+
+            this._positionWrappers();
+
+            this._resizeWrapperToFitElement(this.wrapper.bodyWrapper.innerWrapper,  this.wrapper.bodyWrapper.wrappedElement);
+
+            this.wrapper.bodyWrapper
+                .width(this.wrapper.bodyWrapper.innerWrapper.outerWidth() + this.magicNumber)
+                .height(this.wrapper.bodyWrapper.innerWrapper.outerHeight() + this.magicNumber);
+
+            this._resizeParentWrappers();
+
+
+            this._configureScrolling();
+
+            $(window).on("resize.fixedHeaderTable", function() {
+                that._resizeParentWrappers();
+            });
+
+            this.element.addClass("fixed-header-table-source-table");
+
+            this._refresh();
         },
 
         _resizeParentWrappers : function() {
@@ -142,18 +148,18 @@ $(function() {
                     width : this.wrapper.mainContainer.width()
                 },
                 columnHeaderSize = {
-                    height : this.wrapper.columnHeaderWrapper.wrappedElement.height(),
-                    width : this.wrapper.columnHeaderWrapper.wrappedElement.width()
+                    height : this.wrapper.columnHeaderWrapper.wrappedElement.outerHeight(),
+                    width : this.wrapper.columnHeaderWrapper.wrappedElement.outerWidth()
                 },
                 rowHeaderSize = {
-                    height : this.wrapper.rowHeaderWrapper.wrappedElement.height(),
-                    width : this.wrapper.rowHeaderWrapper.wrappedElement.width()
+                    height : this.wrapper.rowHeaderWrapper.wrappedElement.outerHeight(),
+                    width : this.wrapper.rowHeaderWrapper.wrappedElement.outerWidth()
                 };
 
             if (this.tableDefinition.autoSize) {
                 // parent container is set to auto size, we must adjust it accordingly to fit the inner contents
-                var autoHeight = this.wrapper.bodyWrapper.wrappedElement.height() + columnHeaderSize.height,
-                    autoWidth = this.wrapper.bodyWrapper.wrappedElement.width() + rowHeaderSize.width,
+                var autoHeight = this.wrapper.bodyWrapper.wrappedElement.outerHeight() + columnHeaderSize.height + this.magicNumber2,
+                    autoWidth = this.wrapper.bodyWrapper.wrappedElement.outerWidth() + rowHeaderSize.width + this.magicNumber2,
                     parentContainer = this.wrapper.mainContainer.parent();
 
                 if (autoHeight > parentContainer.height()) {
@@ -164,21 +170,21 @@ $(function() {
                 }
 
                 this.wrapper.mainContainer
-                    .outerHeight(autoHeight)
-                    .outerWidth(autoWidth);
+                    .height(autoHeight)
+                    .width(autoWidth);
 
                 mainContainerSize.height = autoHeight;
                 mainContainerSize.width = autoWidth;
             }
 
-            this.wrapper.bodyWrapper.height(mainContainerSize.height - columnHeaderSize.height);
-            this.wrapper.bodyWrapper.width(mainContainerSize.width - rowHeaderSize.width);
+            this.wrapper.bodyWrapper.outerHeight(mainContainerSize.height - columnHeaderSize.height);
+            this.wrapper.bodyWrapper.outerWidth(mainContainerSize.width - rowHeaderSize.width);
 
-            this.wrapper.columnHeaderWrapper.height(columnHeaderSize.height);
-            this.wrapper.columnHeaderWrapper.width(mainContainerSize.width - rowHeaderSize.width);
+            this.wrapper.columnHeaderWrapper.outerHeight(columnHeaderSize.height);
+            this.wrapper.columnHeaderWrapper.outerWidth(mainContainerSize.width - rowHeaderSize.width);
 
-            this.wrapper.rowHeaderWrapper.height(mainContainerSize.height - columnHeaderSize.height);
-            this.wrapper.rowHeaderWrapper.width(rowHeaderSize.width);
+            this.wrapper.rowHeaderWrapper.outerHeight(mainContainerSize.height - columnHeaderSize.height);
+            this.wrapper.rowHeaderWrapper.outerWidth(rowHeaderSize.width);
         },
 
         _configureScrolling : function() {
@@ -410,12 +416,12 @@ $(function() {
                 for (var cellIndex = 0; cellIndex < rowMeasurements.length; cellIndex++) {
                     $targetHeaderRowCells
                         .eq(cellIndex)
-                        .height(rowMeasurements[cellIndex].height + this.magicNumber)
-                        .width(rowMeasurements[cellIndex].width +  this.magicNumber);
+                        .outerHeight(rowMeasurements[cellIndex].height + this.magicNumber)
+                        .outerWidth(rowMeasurements[cellIndex].width +  this.magicNumber);
 
                     $firstBodyDataRowCells
                         .eq(cellIndex)
-                        .width(rowMeasurements[cellIndex].width + this.magicNumber);
+                        .outerWidth(rowMeasurements[cellIndex].width + this.magicNumber);
                 }
             }
 
@@ -449,15 +455,15 @@ $(function() {
                 for (var cellIndex = 0; cellIndex < rowMeasurements.length; cellIndex++) {
                     $targetHeaderRowCells
                         .eq(cellIndex)
-                        .height(rowMeasurements[cellIndex].height + that.magicNumber)
-                        .width(rowMeasurements[cellIndex].width + that.magicNumber);
+                        .outerHeight(rowMeasurements[cellIndex].height + that.magicNumber)
+                        .outerWidth(rowMeasurements[cellIndex].width + that.magicNumber);
                 }
 
                 $firstBodyDataRows
                     .eq(rowIndex)
                     .children("td")
                     .first()
-                    .height(this.tableDefinition.measurements.rowHeader.rows[rowIndex][0].height + that.magicNumber)
+                    .outerHeight(this.tableDefinition.measurements.rowHeader.rows[rowIndex][0].height + that.magicNumber)
             }
 
             this.element.find("tfoot tr").each(function(i, sourceRow){
