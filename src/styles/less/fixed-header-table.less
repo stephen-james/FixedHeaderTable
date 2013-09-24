@@ -1,0 +1,76 @@
+@import "reset";
+@import "jquery-ui";
+
+.fixed-header-table-non-restraining-wrapper,
+.fixed-header-table-wrapper,
+.fixed-header-table-wrapper-column-header,
+.fixed-header-table-wrapper-row-header,
+.fixed-header-table-wrapper-body,
+.inner-wrapper,
+.header-cell-label
+{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.fixed-header-table-non-restraining-wrapper
+{
+  position : absolute;
+  padding : 0;
+  margin : 0;
+}
+
+.fixed-header-table-wrapper
+{
+  position : relative;
+  overflow : hidden;
+  padding : 0;
+  margin : 0;
+
+  span
+  {
+    max-height:50px;
+    max-width:50px;
+    overflow:hidden;
+    text-overflow : text-ellipsis;
+  }
+
+  .fixed-header-table-wrapper-column-header,
+  .fixed-header-table-wrapper-row-header,
+  .fixed-header-table-wrapper-body,
+  {
+    padding : 0;
+    margin : 0;
+    position : absolute;
+    overflow : hidden;
+
+    .inner-wrapper
+    {
+      padding : 0;
+      margin : 0;
+      position : absolute;
+      width : auto;
+      height : auto;
+    }
+
+    .header-cell-label
+    {
+      overflow : hidden;
+      display : inline-block;
+      text-overflow : ellipsis;
+    }
+  }
+
+  .fixed-header-table-wrapper-body
+  {
+    overflow : auto;
+    height : 200px;
+    width : 200px;
+  }
+}
+
+// site demo
+.fixed-header-table
+{
+}

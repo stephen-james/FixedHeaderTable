@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="dependencies/dev/Markdown.Converter.js"></script>
+</head>
+<body>
+    <noscript>
+
+    </noscript>
+    <script>
+        var xhrReadmeMarkdown = new XMLHttpRequest();
+        xhrReadmeMarkdown.onload = function() {
+            var converter = new Markdown.Converter();
+
+            document.write(converter.makeHtml(xhrReadmeMarkdown.response));
+        };
+
+        xhrReadmeMarkdown.open("GET", "README.md", true);
+        xhrReadmeMarkdown.send();
+    </script>
+</body>
+</html>

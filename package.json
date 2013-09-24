@@ -1,0 +1,17 @@
+{
+    "name" : "FixedHeaderTable",
+    "version"  : "0.0.0",
+    "description" : "A jQuery UI plugin to decorate an existing html table with fixed headers",
+    "directories" : {
+        "lib" : "src",
+        "examples" : "examples"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "http://github.com/example.git",
+            "path": "packages/mypackage"
+        }
+    ]
+
+}
