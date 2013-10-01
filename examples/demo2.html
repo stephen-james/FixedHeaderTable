@@ -2,20 +2,16 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet/less" type="text/css" href="../src/styles/less/fixed-header-table.less"/>
-    <link rel="stylesheet/less" type="text/css" href="../examples/styles/demo.less"/>
-    <!-- [if IE lt 9] -->
-    <script src="../dependencies/dev/es5-shim.js"></script>
-    <!-- [!endif] -->
-    <script src="../dependencies/dev/less-1.4.2.js"></script>
+
     <script src="../dependencies/lib/jquery-1.10.2.js"></script>
     <script src="../dependencies/lib/jquery-ui-1.10.3.custom.js"></script>
 
-    <script src="../src/scripts/jqueryui-fixed-header-table.js"></script>
+    <script src="../src/scripts/jqueryui-minmax-cell-dimensions.js"></script>
+
 </head>
 <body>
 
-<table id="demoTable">
+<table id="demoTable" style="width:100%">
 <thead>
 <tr>
     <th>
@@ -230,9 +226,10 @@
 
 <script>
     $(function () {
-        $("#demoTable").fixedHeaderTable();
+        $("#demoTable").minMaxCellDimensions();
     });
 </script>
+
 
 </body>
 </html>
