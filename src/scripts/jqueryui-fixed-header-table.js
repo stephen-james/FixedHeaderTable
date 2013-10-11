@@ -1,3 +1,7 @@
+// == jQuery UI widget : FixedHeaderTable ==
+// https://github.com/stephen-james/FixedHeaderTable
+// created by Stephen James and contributors
+
 $(function () {
     $.widget("custom.fixedHeaderTable", {
         magicNumber : 1,
@@ -523,37 +527,9 @@ $(function () {
 
         _util : {
             isAutoSize: function (domElement) {
-                var height = null;
+                var height = resolveAppliedStyle(domElement, "height");
 
-                if (domElement.currentStyle) {
-                    // IE's currentStyle should tell us if it is sized auto off the bat
-                    height = domElement.currentStyle.height;
-                }
-                else {
-                    // For Firefox and Chrome, we'll have to enumerate the matched Css Rules
-                    var matchingCssRules = window.getMatchedCSSRules(domElement);
-                    if (!matchingCssRules || matchingCssRules.length == 0) {
-                        // if there are no matches, we assume auto
-                        height = "auto";
-                    }
-                    else {
-                        // iterate through all matches and if there is a height rule, use it
-                        for (var ruleIndex = 0; ruleIndex < matchingCssRules.length; ruleIndex++) {
-                            var thisRuleHeight = matchingCssRules[ruleIndex].style["height"];
-                            if (thisRuleHeight) {
-                                // height may be "auto" or a unit
-                                height = thisRuleHeight;
-                            }
-                        }
-
-                        // if no height rule is specified, height is auto
-                        if (!height) {
-                            return true;
-                        }
-                    }
-                }
-
-                return height === "auto";
+                return !height || height === "auto";
             }
         },
 

@@ -6,4 +6,5 @@
 
 ## Examples
 
-[Demo 1](examples/demo.html "Demo")
+[Demo 1](examples/demo.html "FixedTableHeader Demo")
+[Demo 1](examples/demo2.html "MinMaxCellDimensions Demo")

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../dependencies/lib/specificity.js"></script>
+    <script src="../dependencies/lib/resolveAppliedStyle.js"></script>
+
+    <style>
+
+/* my libs */
+        #whoop
+        {
+            background-color : #f00;
+        }
+
+        div
+        {
+            background-color : #0f0;
+        }
+    </style>
+
+    <script>
+        function demo() {
+            alert(resolveAppliedStyle(document.getElementById("whoop"), "background-color"));
+        }
+    </script>
+
+</head>
+<body>
+    <div id="whoop" style="background-color:#00f">Hello</div>
+
+    <button onclick="demo()">Resolve Applied Style</button>
+</body>
+</html>

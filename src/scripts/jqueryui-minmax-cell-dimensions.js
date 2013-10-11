@@ -1,3 +1,7 @@
+// == jQuery UI widget : MinMaxCellDimensions ==
+// https://github.com/stephen-james/FixedHeaderTable
+// created by Stephen James and contributors
+
 $(function () {
     $.widget("custom.minMaxCellDimensions", {
         // default options
@@ -37,14 +41,21 @@ $(function () {
                     }
                 };
 
+
             this.element.css({
-                width : "auto !important",
-                height : "auto !important"
-            })
+                width: "auto !important",
+                height: "auto !important"
+            });
+
+            clonedTable.css({
+                width: "auto !important",
+                height: "auto !important"
+            });
 
             playground.append(clonedTable);
 
             $("body").append(playground);
+
             // ensure the playground is big enough
             this._resizeWrapperToFitElement(playground, clonedTable);
 
@@ -75,10 +86,7 @@ $(function () {
                                 "max-width" : that.options.maxColumnHeaderCellWidth,
                                 "min-width" : that.options.minColumnHeaderCellWidth,
                                 "max-height" : that.options.maxColumnHeaderCellHeight,
-                                "min-width" : that.options.minColumnHeaderCellHeight,
-                                "overflow" : "hidden",
-                                "text-overflow": "ellipsis",
-                                "display" : "block"
+                                "min-width" : that.options.minColumnHeaderCellHeight
                             },
                             text : headerCellText,
                             title : headerCellText
@@ -185,6 +193,12 @@ $(function () {
 
                     return charArrayBeingTrimmed.join("");
                 }
+            },
+
+            isAutoSize: function (domElement) {
+                var height = resolveAppliedStyle(domElement, "height");
+
+                return !height || height === "auto";
             }
         },
 
@@ -192,9 +206,8 @@ $(function () {
             return this.element.find("tbody tr:first-child th").length;
         },
 
-
         _resizeWrapperToFitElement: function (wrapper, element) {
-            var lastElementSize = { width: 0, height: 0 },
+            var lastElementSize = { width: -1, height: -1 },
                 newElementSize = function () {
                     return {
                         width: $(element).outerWidth(true),
@@ -203,21 +216,34 @@ $(function () {
                             return anotherSize.width === this.width && anotherSize.height === this.height;
                         }
                     }
-                };
+                },
+                iterations = 0;
 
             wrapper.width(element.outerWidth(true));
             wrapper.height(element.outerHeight(true));
+
+            if (!this._util.isAutoSize(element)) {
+                return;
+            }
 
             while (!newElementSize().equalTo(lastElementSize)) {
                 lastElementSize = newElementSize();
                 wrapper.outerWidth(wrapper.outerWidth(true) + 100);
                 wrapper.outerHeight(wrapper.outerHeight(true) + 100);
+                ++iterations;
+
+                if (iterations > 1000) {
+                    // in some circumstances it is possible to loop infinitely, for example if an element is set to
+                    // size according to its container and has got past the size auto guard.
+                    console.warn(this.widgetName + " exited action '_resizeWrapperToFitElement' because the maximum number of iterations was exceeded");
+                    break;
+                }
             }
 
             var fullyExpandedElementSize = newElementSize();
 
-            wrapper.width(fullyExpandedElementSize.width + this.magicNumber);
-            wrapper.height(fullyExpandedElementSize.height + this.magicNumber);
+            wrapper.width(fullyExpandedElementSize.width);
+            wrapper.height(fullyExpandedElementSize.height);
         },
 
         // called when created, and later when changing options
