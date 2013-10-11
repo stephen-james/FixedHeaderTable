@@ -526,7 +526,16 @@ $(function () {
 
 
         _util : {
-            isAutoSize: function (domElement) {
+            isAutoSize: function (element) {
+                var domElement;
+
+                if (element instanceof jQuery) {
+                    domElement = element[0];
+                }
+                else {
+                    domElement = element;
+                }
+
                 var height = resolveAppliedStyle(domElement, "height");
 
                 return !height || height === "auto";

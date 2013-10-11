@@ -81,15 +81,15 @@ $(function () {
                     $headerCell
                         .text("")
                         .append($("<span></span>", {
-                            class : "min-max-cell-dimensions-header-wrapper",
-                            css : {
+                            "class" : "min-max-cell-dimensions-header-wrapper",
+                            "css" : {
                                 "max-width" : that.options.maxColumnHeaderCellWidth,
                                 "min-width" : that.options.minColumnHeaderCellWidth,
                                 "max-height" : that.options.maxColumnHeaderCellHeight,
                                 "min-width" : that.options.minColumnHeaderCellHeight
                             },
-                            text : headerCellText,
-                            title : headerCellText
+                            "text" : headerCellText,
+                            "title" : headerCellText
                         }));
 
                     var headerCellWidth = $headerCell.find("span").outerWidth(),
@@ -133,8 +133,8 @@ $(function () {
                 $headerCell
                     .text("")
                     .append($("<span></span>", {
-                        class : "min-max-cell-dimensions-header-wrapper",
-                        css : {
+                        "class" : "min-max-cell-dimensions-header-wrapper",
+                        "css" : {
                             "max-width" : that.options.maxRowHeaderCellWidth,
                             "min-width" : that.options.minRowHeaderCellWidth,
                             "max-height" : that.options.maxRowHeaderCellHeight,
@@ -143,8 +143,8 @@ $(function () {
                             "text-overflow": "ellipsis",
                             "display" : "block"
                         },
-                        text : headerCellText,
-                        title : headerCellText
+                        "text" : headerCellText,
+                        "title" : headerCellText
                     }));
 
                 var headerCellWidth = $headerCell.find("span").outerWidth(),
@@ -195,7 +195,16 @@ $(function () {
                 }
             },
 
-            isAutoSize: function (domElement) {
+            isAutoSize: function (element) {
+                var domElement;
+
+                if (element instanceof jQuery) {
+                    domElement = element[0];
+                }
+                else {
+                    domElement = element;
+                }
+
                 var height = resolveAppliedStyle(domElement, "height");
 
                 return !height || height === "auto";
