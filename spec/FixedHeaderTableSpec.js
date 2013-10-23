@@ -246,6 +246,29 @@ describe("FixedHeaderTable", function() {
                 expect(hasWrapper).toBeTruthy();
             });
         });
+    });
 
+    describe("Fixed Column Header", function() {
+        var systemUnderTest = {
+            htmlSandboxElement : {},
+            sourceTable : {}
+        };
+
+        beforeEach(function() {
+            TestHelpers.createTableBasedOn("tableTestCases/standardTable.html", systemUnderTest);
+        });
+
+        afterEach(function() {
+            if (systemUnderTest.htmlSandboxElement && systemUnderTest.htmlSandboxElement != {}) {
+                $(systemUnderTest.htmlSandboxElement).remove();
+            }
+        });
+
+        it("has the same width as the table value data, excluding row headers", function() {
+            runs(function(){
+
+                expect(false).toBeTruthy();
+            });
+        });
     });
 });

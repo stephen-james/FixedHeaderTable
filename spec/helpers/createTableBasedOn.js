@@ -6,7 +6,17 @@
                 tableTestCaseRequest = new XMLHttpRequest();
 
             tableTestCaseRequest.onload = function(result) {
-                tableHtmlForTestCase = result.srcElement.responseText;
+                if (result.srcElement) {
+                    tableHtmlForTestCase = result.srcElement.responseText;
+                }
+                else {
+                    if (result.currentTarget) {
+                        tableHtmlForTestCase = result.currentTarget.responseText;
+                    }
+                    else {
+                        console.error("tableHtmlForTestCase : unable to load html response");
+                    }
+                }
             };
             tableTestCaseRequest.open("GET", tableTestCaseHtmlPath, false);
             tableTestCaseRequest.send();
