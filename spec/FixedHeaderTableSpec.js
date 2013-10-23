@@ -255,7 +255,7 @@ describe("FixedHeaderTable", function() {
         };
 
         beforeEach(function() {
-            TestHelpers.createTableBasedOn("tableTestCases/standardTable.html", systemUnderTest);
+            // create table in each test
         });
 
         afterEach(function() {
@@ -264,11 +264,67 @@ describe("FixedHeaderTable", function() {
             }
         });
 
-        it("has the same width as the table value data, excluding row headers", function() {
-            runs(function(){
+        it("has the same width as the table value data, excluding row headers (test with Standard Table, within 3px delta)", function() {
+            TestHelpers.createTableBasedOn("tableTestCases/standardTable.html", systemUnderTest);
 
-                expect(false).toBeTruthy();
+            runs(function(){
+                var columnHeaderTable,
+                    valuesTable,
+                    columnHeaderTableWidth,
+                    valuesTableWidth,
+                    delta;
+
+                columnHeaderTable = $(systemUnderTest.htmlSandboxElement)
+                                        .find(".fixed-header-table-wrapper-column-header")
+                                        .find("table.fixed-header-table");
+
+                valuesTable =  $(systemUnderTest.sourceTable);
+
+                columnHeaderTableWidth = columnHeaderTable.outerWidth();
+                valuesTableWidth = valuesTable.outerWidth();
+                delta = Math.abs(columnHeaderTableWidth - valuesTableWidth);
+
+                // allow for three pixels imperfection on lineup
+                expect(delta).toBeLessThan(3);
             });
         });
+
+        it("has the same width as the table value data, excluding row headers (test with Long Headers Table, within 3px delta)", function() {
+            TestHelpers.createTableBasedOn("tableTestCases/longHeadersTable.html", systemUnderTest,
+                {
+                    maxRowHeaderCellWidth: "150px",
+                    minRowHeaderCellWidth: "50px",
+                    maxRowHeaderCellHeight: "60px",
+                    minRowHeaderCellHeight: "50px",
+                    maxColumnHeaderCellWidth: "150px",
+                    minColumnHeaderCellWidth: "50px",
+                    maxColumnHeaderCellHeight: "60px",
+                    minColumnHeaderCellHeight: "50px",
+                    sizeUniformly: true
+                }
+            );
+
+            runs(function(){
+                var columnHeaderTable,
+                    valuesTable,
+                    columnHeaderTableWidth,
+                    valuesTableWidth,
+                    delta;
+
+                columnHeaderTable = $(systemUnderTest.htmlSandboxElement)
+                    .find(".fixed-header-table-wrapper-column-header")
+                    .find("table.fixed-header-table");
+
+                valuesTable =  $(systemUnderTest.sourceTable);
+
+                columnHeaderTableWidth = columnHeaderTable.outerWidth();
+                valuesTableWidth = valuesTable.outerWidth();
+                delta = Math.abs(columnHeaderTableWidth - valuesTableWidth);
+
+                // allow for three pixels imperfection on lineup
+                expect(delta).toBeLessThan(3);
+            });
+        });
+
     });
 });
