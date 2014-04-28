@@ -93,7 +93,7 @@
 
                 if (matchesSelectorResult) {
                     potentiallyAppliedStyle = rule.style[style];
-                    if (potentiallyAppliedStyle !== undefined) {
+                    if (potentiallyAppliedStyle !== undefined && potentiallyAppliedStyle !== "") {
 
                         cssStyleSpecificityScore = +(SPECIFICITY.calculate(rule.selectorText)[0]
                             .specificity
